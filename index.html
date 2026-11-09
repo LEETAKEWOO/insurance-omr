@@ -87,6 +87,10 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .krow .no{color:var(--muted);font-size:12.5px;padding-top:2px}
 .krow b{display:block;font-size:12.5px;color:var(--omr);font-weight:700;margin-bottom:2px}
 .krow.done b{color:var(--ok)}
+.hist{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 24px 20px;font-size:13px;color:var(--muted)}
+.hist b{padding:4px 9px;border-radius:999px;border:1px solid var(--line);font-size:13px;color:var(--ink)}
+.hist b.ok{border-color:var(--ok);color:var(--ok)} .hist b.no{border-color:var(--omr);color:var(--omr)}
+.hist small{font-size:12px}
 .gradnote{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:4px;font-size:14.5px;line-height:1.6;background:var(--surface)}
 .bank{padding:16px 24px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);line-height:1.6}
 .bank b{color:var(--ink)}
@@ -916,16 +920,34 @@ function coreReopen(wrongIds){
 const DIFF = {"K-nl-01":2,"K-nl-02":1,"K-nl-03":1,"K-nl-04":2,"K-nl-05":2,"K-nl-06":2,"K-nl-07":1,"K-nl-08":1,"K-nl-09":1,"K-nl-10":1,"K-nl-11":2,"K-nl-12":2,"K-nl-13":1,"K-nl-14":1,"K-nl-15":2,"K-nl-16":1,"K-cm-01":1,"K-cm-02":2,"K-cm-03":2,"K-t3-01":1,"K-t3-02":2,"K-t3-03":1,"K-t3-04":1,"K-t3-05":2,"K-t3-06":2,"K-t3-07":2,"E-t3-01":1,"E-t3-02":1,"E-t3-03":1,"E-t3-04":1,"E-t3-05":1,"E-t3-06":1,"E-t3-07":1,"E-t3-08":1,"E-t3-09":1,"E-t3-10":1,"E-t3-11":1,"E-t3-12":1,"E-t3-13":1,"E-t3-14":1,"E-t3-15":1,"E-t3-16":1,"E-t3-17":1,"E-t3-18":1,"E-t3-19":1,"E-t3-20":1,"E-t3-21":1,"E-t3-22":1,"E-t3-23":1,"E-t3-24":1,"E-t3-25":1,"E-t3-26":1,"E-t3-27":1,"E-t3-28":1,"E-t3-29":1,"E-t3-30":1,"E-t3-31":1,"E-t3-32":1,"E-t3-33":1,"E-t3-34":1,"E-t3-35":1,"E-t3-36":1,"E-t3-37":1,"E-t3-38":1,"E-t3-39":1,"E-t3-40":1,"B-L01":1,"B-L02":1,"B-L03":2,"B-L04":2,"B-L05":2,"B-L07":2,"B-L08":2,"B-L09":2,"B-L10":2,"B-L11":1,"B-L12":1,"B-L13":2,"B-L15":2,"B-L16":3,"B-L17":2,"B-L18":2,"B-L19":3,"B-L20":3,"B-L21":2,"B-L22":2,"B-L23":2,"B-L24":1,"B-L25":3,"B-L26":2,"B-L27":1,"B-L28":2,"B-L29":2,"B-L30":1,"L01":1,"L02":1,"L03":1,"L04":2,"L05":2,"L06":1,"L07":2,"L08":2,"L09":1,"L10":3,"L11":2,"L12":2,"L13":3,"L14":2,"L15":2,"L16":1,"L17":1,"L18":2,"L19":1,"L20":1,"L21":2,"L22":2,"L23":2,"L24":2,"L25":2,"L26":2,"L27":1,"L28":2,"L29":2,"L30":1,"T-L01":2,"T-L02":1,"T-L03":1,"T-L04":3,"T-L05":2,"T-L06":3,"T-L07":2,"T-L08":3,"T-L09":3,"T-L10":1,"T-L11":2,"T-L12":2,"T-L13":2,"T-L14":3,"T-L15":2,"T-L16":1,"T-L17":3,"T-L18":3,"T-L19":2,"T-L20":3,"T-L21":3,"T-L22":3,"T-L23":3,"T-L24":3,"T-L25":2,"T-L26":3,"T-L27":3,"T-L28":3,"T-L29":3,"T-L30":1,"T-L31":2,"T-L32":3,"T-L33":2,"T-L34":2,"T-L35":2,"T-L36":2,"T-L37":1,"T-L38":1,"T-L39":2,"T-L40":2,"T-L41":3,"T-L42":2,"T-L43":1,"T-L44":3,"T-L45":1,"B-N02":2,"B-N03":2,"B-N04":1,"B-N05":3,"B-N06":3,"B-N07":2,"B-N08":2,"B-N09":2,"B-N10":3,"B-N11":2,"B-N12":3,"B-N14":1,"B-N15":2,"B-N16":3,"B-N17":1,"B-N18":2,"B-N19":1,"B-N20":1,"B-N21":3,"B-N22":2,"B-N23":2,"B-N24":2,"B-N25":2,"B-N26":1,"B-N27":2,"B-N28":2,"B-N29":3,"B-N30":2,"B-N32":1,"B-N33":3,"N01":1,"N02":2,"N03":2,"N04":2,"N05":1,"N06":2,"N07":1,"N08":1,"N09":3,"N10":3,"N11":2,"N12":2,"N13":2,"N14":2,"N15":2,"N16":2,"N17":3,"N18":3,"N20":2,"N21":2,"N22":1,"N23":2,"N24":2,"N25":1,"N26":1,"N27":3,"T-N01":3,"T-N02":2,"T-N03":3,"T-N04":3,"T-N05":3,"T-N06":3,"T-N07":3,"T-N08":2,"T-N09":3,"T-N10":3,"T-N11":2,"T-N12":2,"T-N13":3,"T-N14":2,"T-N15":3,"T-N16":3,"T-N17":3,"T-N18":2,"T-N19":2,"T-N20":2,"T-N21":3,"T-N22":2,"T-N23":2,"T-N24":3,"T-N25":3,"T-C01":2,"T-C02":1,"T-C03":2,"T-C04":3,"T-C05":3,"T-C06":2,"T-C07":2,"T-C08":3,"T-C09":3,"T-C10":2,"T-C11":3,"T-C12":2,"T-C13":2,"T-C14":3,"T-C15":3,"T-C16":2,"T-C17":2,"T-C18":2,"T-C19":3,"T-C20":2,"V-B-N02-1":2,"V-B-N02-2":3,"V-B-N03-1":3,"V-B-N03-2":3,"V-B-N04-1":2,"V-B-N04-2":3,"V-B-N05-1":2,"V-B-N05-2":3,"V-B-N06-1":3,"V-B-N06-2":3,"V-B-N07-1":3,"V-B-N07-2":2,"V-B-N08-1":2,"V-B-N08-2":1,"V-B-N09-1":2,"V-B-N09-2":2,"V-B-N10-1":2,"V-B-N10-2":1,"V-B-N11-1":2,"V-B-N11-2":2,"V-B-N12-1":2,"V-B-N12-2":3,"V-B-N14-1":2,"V-B-N14-2":1,"V-B-N15-1":1,"V-B-N15-2":2,"V-B-N16-1":2,"V-B-N16-2":2,"V-B-N17-1":1,"V-B-N17-2":2,"V-N01-1":1,"V-N01-2":1,"V-N02-1":3,"V-N02-2":2,"V-N03-1":1,"V-N03-2":2,"V-N04-1":1,"V-N04-2":2,"V-N05-1":1,"V-N05-2":2,"V-N06-1":1,"V-N06-2":1,"V-N07-1":1,"V-N07-2":2,"V-N08-1":1,"V-N08-2":1,"V-N09-1":3,"V-N09-2":2,"V-N10-1":1,"V-N10-2":1,"V-N11-1":3,"V-N11-2":2,"V-N12-1":2,"V-N12-2":1,"V-N13-1":3,"V-N13-2":1,"V-N14-1":2,"V-N14-2":1,"V-N15-1":3,"V-N15-2":3,"V-N16-1":2,"V-N16-2":2,"V-N17-1":2,"V-N17-2":3,"V-N18-1":3,"V-N18-2":2,"V-T-N01-1":2,"V-T-N01-2":2,"V-T-N02-1":3,"V-T-N02-2":2,"V-T-N03-1":3,"V-T-N03-2":3,"V-T-N04-1":3,"V-T-N04-2":2,"V-T-N05-1":2,"V-T-N05-2":2,"V-T-N06-1":2,"V-T-N06-2":1,"V-T-N07-1":1,"V-T-N07-2":3,"V-T-N08-1":2,"V-T-N08-2":2,"V-T-N09-1":2,"V-T-N09-2":2,"V-T-N10-1":1,"V-T-N10-2":1,"V-T-N11-1":2,"V-T-N11-2":3,"V-T-N12-1":2,"V-T-N12-2":2,"V-T-N13-1":3,"V-T-N13-2":1,"V-T-N14-1":2,"V-T-N14-2":2,"V-T-N15-1":2,"V-T-N15-2":2,"V-T-N16-1":3,"V-T-N16-2":2,"V-T-N17-1":2,"V-T-N17-2":1,"V-T-N18-1":2,"V-T-N18-2":3,"V-T-N19-1":2,"V-T-N19-2":2,"V-T-N20-1":2,"V-T-N20-2":3,"V-T-N21-1":2,"V-T-N21-2":1,"V-T-N22-1":2,"V-T-N22-2":2,"V-T-N23-1":3,"V-T-N23-2":2,"V-T-N24-1":2,"V-T-N24-2":3,"V-T-N25-1":3,"V-T-N25-2":1,"V-B-N18-1":1,"V-B-N18-2":1,"V-B-N19-1":2,"V-B-N19-2":2,"V-B-N20-1":2,"V-B-N20-2":1,"V-B-N21-1":1,"V-B-N21-2":3,"V-B-N22-1":2,"V-B-N22-2":2,"V-B-N23-1":3,"V-B-N23-2":2,"V-B-N24-1":3,"V-B-N24-2":2,"V-B-N25-1":1,"V-B-N25-2":1,"V-B-N26-1":2,"V-B-N26-2":3,"V-B-N27-1":2,"V-B-N27-2":1,"V-B-N28-1":3,"V-B-N28-2":1,"V-B-N29-1":2,"V-B-N29-2":3,"V-B-N30-1":2,"V-B-N30-2":1,"V-B-N32-1":2,"V-B-N32-2":2,"V-B-N33-1":2,"V-B-N33-2":2,"V-N20-1":3,"V-N20-2":2,"V-N21-1":1,"V-N21-2":3,"V-N22-1":2,"V-N22-2":1,"V-N23-1":1,"V-N23-2":2,"V-N24-1":1,"V-N24-2":2,"V-N25-1":2,"V-N25-2":2,"V-N26-1":1,"V-N26-2":2,"V-N27-1":2,"V-N27-2":3,"V-T-C01-1":2,"V-T-C01-2":2,"V-T-C02-1":3,"V-T-C02-2":1,"V-T-C03-1":3,"V-T-C03-2":1,"V-T-C04-1":1,"V-T-C04-2":1,"V-T-C05-1":3,"V-T-C05-2":3,"V-T-C06-1":1,"V-T-C06-2":2,"V-T-C07-1":2,"V-T-C07-2":1,"V-T-C08-1":3,"V-T-C08-2":2,"V-T-C09-1":3,"V-T-C09-2":2,"V-T-C10-1":2,"V-T-C10-2":2,"V-T-C11-1":2,"V-T-C11-2":2,"V-T-C12-1":2,"V-T-C12-2":1,"V-T-C13-1":1,"V-T-C13-2":2,"V-T-C14-1":2,"V-T-C14-2":2,"V-T-C15-1":3,"V-T-C15-2":2,"V-T-C16-1":3,"V-T-C16-2":2,"V-T-C17-1":2,"V-T-C17-2":3,"V-T-C18-1":3,"V-T-C18-2":2,"V-T-C19-1":3,"V-T-C19-2":1,"V-T-C20-1":2,"V-T-C20-2":2,"T-T01":2,"T-T02":2,"T-T03":3,"T-T04":3,"T-T05":2,"T-T06":3,"T-T07":2,"T-T08":3,"T-T09":3,"T-T10":3,"T-T11":3,"T-T12":3,"T-T13":2,"T-T14":3,"T-T15":3,"T-T16":3,"T-T17":2,"T-T18":3,"T-T19":3,"T-T20":3,"T-T21":2,"T-T22":3,"T-T23":2,"T-T24":3,"T-T25":3,"T-T26":3,"T-T27":3,"T-T28":2,"T-T29":3,"T-T30":3,"T-T31":3,"T-T32":3,"T-T33":2,"T-T34":3,"T-T35":3,"T-T36":3,"T-T37":3,"T-T38":3,"T-T39":3,"T-T40":3,"V-T-T01-1":2,"V-T-T01-2":2,"V-T-T02-1":3,"V-T-T02-2":1,"V-T-T03-1":3,"V-T-T03-2":1,"V-T-T04-1":2,"V-T-T04-2":3,"V-T-T05-1":2,"V-T-T05-2":2,"V-T-T06-1":1,"V-T-T06-2":2,"V-T-T07-1":1,"V-T-T07-2":2,"V-T-T08-1":2,"V-T-T08-2":3,"V-T-T09-1":2,"V-T-T09-2":2,"V-T-T10-1":2,"V-T-T10-2":3,"V-T-T11-1":3,"V-T-T11-2":3,"V-T-T12-1":3,"V-T-T12-2":3,"V-T-T13-1":2,"V-T-T13-2":2,"V-T-T14-1":2,"V-T-T14-2":2,"V-T-T15-1":3,"V-T-T15-2":2,"V-T-T16-1":1,"V-T-T16-2":2,"V-T-T17-1":1,"V-T-T17-2":3,"V-T-T18-1":3,"V-T-T18-2":2,"V-T-T19-1":2,"V-T-T19-2":2,"V-T-T20-1":2,"V-T-T20-2":3,"V-T-T21-1":2,"V-T-T21-2":3,"V-T-T22-1":2,"V-T-T22-2":1,"V-T-T23-1":2,"V-T-T23-2":3,"V-T-T24-1":2,"V-T-T24-2":3,"V-T-T25-1":2,"V-T-T25-2":2,"V-T-T26-1":2,"V-T-T26-2":1,"V-T-T27-1":2,"V-T-T27-2":3,"V-T-T28-1":3,"V-T-T28-2":3,"V-T-T29-1":2,"V-T-T29-2":2,"V-T-T30-1":3,"V-T-T30-2":3,"V-T-T31-1":3,"V-T-T31-2":3,"V-T-T32-1":3,"V-T-T32-2":2,"V-T-T33-1":3,"V-T-T33-2":3,"V-T-T34-1":3,"V-T-T34-2":3,"V-T-T35-1":3,"V-T-T35-2":2,"V-T-T36-1":3,"V-T-T36-2":3,"V-T-T37-1":2,"V-T-T37-2":1,"V-T-T38-1":2,"V-T-T38-2":3,"V-T-T39-1":2,"V-T-T39-2":2,"V-T-T40-1":3,"V-T-T40-2":2,"X-SPB-1":2,"X-SPB-2":2,"X-ADM-1":1,"X-ADM-2":1,"X-AGI-1":2,"X-AGI-2":2,"X-PER-1":1,"X-PER-2":2,"X-DUI-1":2,"X-DUI-2":3,"X-INT-1":1,"X-INT-2":2,"X-FLT-1":1,"X-FLT-2":2,"X-FCA-1":1,"X-FCA-2":2,"X-CIC-1":1,"X-CIC-2":2,"X-TPI-1":2,"X-TPI-2":3,"X-DEX-1":2,"X-DEX-2":2,"X-LTC-1":2,"X-LTC-2":3,"X-PRM-1":2,"X-PRM-2":2,"X-HOS-1":2,"X-HOS-2":2,"X-MIS-1":2,"X-MIS-2":2,"X-HOL-1":2,"X-HOL-2":1,"Y08-03-1":1,"Y08-03-2":2,"Y08-04-1":1,"Y08-04-2":1,"Y08-05-1":2,"Y08-05-2":2,"Y08-08-1":2,"Y08-08-2":2,"Y08-10-1":1,"Y08-10-2":1,"Y08-12-1":2,"Y08-12-2":2,"Y08-13-1":1,"Y08-13-2":1,"Y08-14-1":1,"Y08-14-2":2,"Y08-15-1":2,"Y08-15-2":2,"Y08-16-1":2,"Y08-16-2":2,"Y08-17-1":3,"Y08-17-2":2,"Y08-24-1":2,"Y08-24-2":2,"Y08-26-1":1,"Y08-26-2":1,"Y08-27-1":1,"Y08-27-2":1,"Y08-32-1":2,"Y08-32-2":2,"Y08-33-1":2,"Y08-33-2":1,"Y08-43-1":2,"Y08-43-2":2,"Y08-46-1":1,"Y08-46-2":3,"Y08-49-1":2,"Y08-49-2":2,"Y09-03-1":2,"Y09-03-2":3,"Y09-05-1":2,"Y09-05-2":1,"Y09-12-1":1,"Y09-12-2":2,"Y09-13-1":2,"Y09-13-2":2,"Y09-14-1":2,"Y09-14-2":3,"Y09-17-1":1,"Y09-17-2":2,"Y09-18-1":2,"Y09-18-2":1,"Y09-19-1":3,"Y09-19-2":1,"Y09-20-1":1,"Y09-20-2":1,"Y09-21-1":1,"Y09-21-2":2,"Y09-25-1":2,"Y09-25-2":2,"Y09-26-1":1,"Y09-26-2":2,"Y09-27-1":1,"Y09-27-2":2,"Y09-28-1":1,"Y09-28-2":1,"Y09-32-1":1,"Y09-32-2":2,"Y09-33-2":2,"Y09-41-1":2,"Y09-41-2":1,"Y09-43-1":3,"Y09-43-2":3,"Y09-50-1":2,"Y09-50-2":2,"Y10-02-1":1,"Y10-02-2":3,"Y10-03-1":3,"Y10-03-2":2,"Y10-05-1":2,"Y10-05-2":3,"Y10-07-1":3,"Y10-07-2":3,"Y10-09-1":1,"Y10-09-2":2,"Y10-13-1":2,"Y10-13-2":3,"Y10-15-1":3,"Y10-15-2":2,"Y10-16-1":2,"Y10-16-2":3,"Y10-17-1":1,"Y10-17-2":2,"Y10-19-1":2,"Y10-19-2":3,"Y10-20-1":3,"Y10-20-2":3,"Y10-21-1":2,"Y10-21-2":3,"Y10-22-1":2,"Y10-22-2":2,"Y10-23-1":3,"Y10-23-2":3,"Y10-24-1":2,"Y10-24-2":2,"Y10-25-1":1,"Y10-25-2":1,"Y10-29-1":2,"Y10-29-2":2,"Y10-32-1":1,"Y10-32-2":1,"Y10-33-1":2,"Y10-33-2":2,"Y10-34-1":2,"Y10-34-2":2,"Y10-35-1":3,"Y10-35-2":2,"Y10-39-1":1,"Y10-39-2":1};
 const MIX = { real:[0.40,0.45,0.15], hard:[0.15,0.40,0.45] };
 const dOf = b => b.gen ? 3 : (DIFF[b.id]||2);
+/* 문제 id → 핵심 개념 (실전 모의고사에서 단골 개념 비중·오답 재출제·핵심 한 줄 표시에 사용) */
+let _cIdx=null;
+const coreOf = id => { if(!_cIdx){ _cIdx={}; ['nl','cm','t3'].forEach(s=>(CORE[s]||[]).forEach(c=>c.ids.forEach(i=>{ _cIdx[i]={k:s+'|'+c.c, c:c.c, key:c.key, ids:c.ids}; }))); } return _cIdx[id]; };
+const CORE_SHARE = 0.75;   /* 10월 실전 검증에서 단골 개념으로 풀 수 있던 비율(76%)에 맞춤 */
+const mKey = () => 'omr.miss.'+S.exam;
 function buildSet(){
   const ex=SET(), order=Object.keys(ex.pick), out=[], mix=MIX[S.level]||MIX.real, genCap = S.level==='hard' ? 3 : 1;
+  const missed=store.get(mKey(),[]);
   const seen=new Set(store.get(sKey(),[])), used=new Set();
   /* 최근에 푼 문제는 뒤로 미루고, 처음 보는 문제부터 뽑기 */
   const rank=arr=>{ const a=shuffle(arr); return [...a.filter(b=>!seen.has(b.id)), ...a.filter(b=>seen.has(b.id))]; };
   order.forEach(sec=>{
     const n=ex.pick[sec], all=ex.pool.filter(b=>b.s===sec), chosen=[]; let gens=0;
     const take=(arr,limit)=>{ for(const b of arr){ if(chosen.length>=limit) break; if(chosen.includes(b)||used.has(famOf(b))) continue; if(b.gen&&gens>=genCap) continue; if(b.gen) gens++; used.add(famOf(b)); chosen.push(b); } };
-    const q3=Math.round(n*mix[2]), q1=Math.round(n*mix[0]);
-    const fresh=d=>shuffle(all.filter(b=>dOf(b)===d&&!seen.has(b.id)));
+    /* 0차: 지난 회차에서 틀린 개념을 다른 방향의 문제로 다시(과목별 최대 25%) */
+    const revisit=[];
+    shuffle(missed.filter(id=>{ const b=byId(id); return b&&b.s===sec; })).forEach(id=>{
+      if(revisit.length>=Math.ceil(n*0.25)) return;
+      const c=coreOf(id); let alt=c ? shuffle(c.ids.filter(x=>x!==id).map(byId).filter(Boolean)) : [];
+      if(!alt.length) alt=shuffle(all.filter(b=>b.id!==id&&famOf(b)===famOf(byId(id))));
+      revisit.push(alt[0]||byId(id));
+    });
+    take(revisit, revisit.length);
+    const r3=chosen.filter(b=>dOf(b)===3).length, r1=chosen.filter(b=>dOf(b)===1).length;
+    const q3=chosen.length+Math.max(0,Math.round(n*mix[2])-r3), q1=Math.max(0,Math.round(n*mix[0])-r1);
+    /* 단골 개념 문제를 약 75% 비율로 앞에 섞기 */
+    const fresh=d=>{ const a=all.filter(b=>dOf(b)===d&&!seen.has(b.id)), co=shuffle(a.filter(b=>coreOf(b.id))), ot=shuffle(a.filter(b=>!coreOf(b.id))), r=[];
+      while(co.length||ot.length){ r.push((co.length&&(!ot.length||Math.random()<CORE_SHARE)) ? co.shift() : ot.shift()); } return r; };
     /* 1차: 처음 보는 문제로 난이도 비율 맞추기 → 2차: 모자라면 처음 보는 다른 난이도(보통 우선) → 3차: 최근 푼 문제 */
     take(fresh(3), q3); take(fresh(1), chosen.length+q1); take(fresh(2), n);
     take([...fresh(2), ...fresh(1), ...(mix[2]>0.3?fresh(3):[])], n);
@@ -971,8 +993,9 @@ function go(d){ S.idx=Math.min(S.list.length-1,Math.max(0,S.idx+d)); S.confirm=f
 function jump(i){ S.idx=i; S.confirm=false; render(); window.scrollTo(0,0); }
 function finish(){
   clearInterval(S.timerId);
-  if(S.mode==='exam'){ S.list.forEach((q,k)=>recordWrong(q.id, S.ans[k]!==q.a)); coreReopen(S.list.filter((q,k)=>S.ans[k]!==q.a).map(q=>q.id)); }
+  if(S.mode==='exam'){ const miss=S.list.filter((q,k)=>S.ans[k]!==q.a).map(q=>q.id); S.list.forEach((q,k)=>recordWrong(q.id, S.ans[k]!==q.a)); coreReopen(miss); if(!S.retry) store.set(mKey(), miss); }
   const r=calc();
+  if(!S.retry && S.mode==='exam'){ const h=store.get('omr.hist.'+S.exam,[]); h.push(r.dual ? r.parts.map(x=>x.score) : [r.total]); store.set('omr.hist.'+S.exam, h.slice(-8)); }
   if(!S.retry && S.mode!=='core'){ const b=store.get(bKey(),null); if(b===null||r.total>b) store.set(bKey(),r.total); }
   S.view='result'; render(); window.scrollTo(0,0);
 }
@@ -990,7 +1013,7 @@ function render(){ if(S.view==='keys') return renderKeys(); if(S.view==='notes')
 function renderHome(){
   const ex=SET();
   const wrong=ex.ready? store.get(wKey(),[]).filter(byId) : [];
-  const best=ex.ready? store.get(bKey(),null) : null;
+  const best=ex.ready? store.get(bKey(),null) : null, hist=ex.ready? store.get('omr.hist.'+S.exam,[]) : [];
   const total=ex.ready? ex.pool.length : 0, gens=ex.ready? ex.pool.filter(b=>b.gen).length : 0;
   const cl=ex.ready? coreList() : [], cProg=store.get(coreKey,{}), cDone=cl.filter(c=>(cProg[c.k]||{}).s>=2).length, cStarted=cl.some(c=>cProg[c.k]);
   const wLabel = id => { const b=byId(id); return b.gen ? b.label+' (숫자가 바뀌는 문제)' : (b.q.length>54?b.q.slice(0,54)+'…':b.q); };
@@ -1032,12 +1055,13 @@ function renderHome(){
       <div class="seg" role="tablist">${[['real','실전 비율'],['hard','심화']].map(([k,t])=>`<button role="tab" data-lv="${k}" aria-selected="${S.level===k}">${t}</button>`).join('')}</div>
       <small>${S.level==='real' ? '2026년 실전 문제 경향에 맞춰 쉬운 문제 약 40%, 보통 45%, 사례·계산 같은 응용문제 15%로 섞고, 계산 문제는 과목마다 1개까지만 냅니다.' : '실력 점검용입니다. 비슷한 개념을 구별하는 문제와 사례·계산 응용문제를 많이(어려운 문제 약 45%) 냅니다.'}</small>
     </div>
-    <div class="bank">문제은행 <b class="tnum">${total}</b>문항에서 과목별로 무작위로 뽑습니다. 숫자가 매번 바뀌는 계산 문제 ${gens}종도 들어 있습니다. 최근에 푼 문제는 뒤로 미루고 처음 보는 문제부터 내며, 같은 개념의 원본·변형 문제는 한 시험지에 같이 나오지 않습니다. 보기 순서도 매번 바뀝니다.</div>
+    <div class="bank">문제은행 <b class="tnum">${total}</b>문항에서 과목별로 무작위로 뽑습니다. 숫자가 매번 바뀌는 계산 문제 ${gens}종도 들어 있습니다.${coreList().length?' 시험지의 약 75%는 단골 개념 문제로 채우고, 지난 회차에서 틀린 개념은 다음 회차에 다른 방향의 문제로 다시 냅니다.':''} 최근에 푼 문제는 뒤로 미루고 처음 보는 문제부터 내며, 보기 순서도 매번 바뀝니다.</div>
     <div class="sheet-foot">
       <button class="btn" id="bPractice">연습 모드로 풀기</button>
       <button class="btn ghost" id="bExam">실전 모드${ex.time?` (${ex.time}분)`:''}</button>
       <span class="best tnum">${best===null?'아직 실전 기록이 없습니다':`${ex.dual?'최고 기록(두 과목 중 낮은 점수)':'최고 점수'} ${best}점`}</span>
     </div>
+    ${hist.length?`<div class="hist"><span>최근 실전</span>${hist.map((h,i)=>`<b class="tnum ${Math.min(...h)>=60?'ok':'no'}" title="${i+1}회">${h.join(' · ')}</b>`).join('')}${ex.dual?'<small>손해 · 제3 점수</small>':''}</div>`:''}
   </section>
   <p class="muted" style="font-size:14px;margin:12px 2px 0">${ex.foot}</p>
   ${NOTES[S.exam]?`<button class="notecard" id="bNotes"><span class="nk">핵심노트</span><b>${ex.name} 꼭 기억할 것 정리</b><span class="muted">${S.exam==='life'?'김토리쌤 강의 기준 · 교재와 다른 곳 표시':'2026 연수교재 기준 · 강의와 다른 곳 표시'}</span><span class="go">열기</span></button>`:''}
@@ -1088,7 +1112,7 @@ function renderQuiz(){
     </ul>
     ${locked?`<div class="exp" role="status">
       <div class="verdict ${chosen===q.a?'ok':'no'}">${chosen===q.a?'정답입니다':`오답입니다 · 정답 ${NUM[q.a]}`}</div>
-      ${q.key?`<div class="keyline"><b>핵심</b>${esc(q.key)}</div>`:''}
+      ${(q.key||(coreOf(q.id)||{}).key)?`<div class="keyline"><b>핵심</b>${esc(q.key||coreOf(q.id).key)}</div>`:''}
       <p>${esc(q.e)}</p><div class="src">근거: ${esc(q.src||SET().src)} ${esc(q.p)}</div></div>`:''}
     <div class="nav">
       <button class="btn ghost" id="bPrev" ${k===0?'disabled':''}>이전</button>
@@ -1174,6 +1198,7 @@ function renderResult(){
   <div class="review">${wrongs.map(([q,k])=>{ const c=S.ans[k]; return `<div class="rv">
     <div class="t"><span class="tnum" style="color:var(--omr)">${k+1}.</span> ${esc(q.q)}</div>
     <div class="a">내 답 ${c===undefined?'미표기':NUM[c]} · 정답 <b>${NUM[q.a]} ${esc(q.o[q.a])}</b></div>
+    ${coreOf(q.id)?`<div class="keyline"><b>핵심</b>${esc(coreOf(q.id).key)}</div>`:''}
     <p>${esc(q.e)}</p><p class="rvsrc">근거: ${esc(q.src||SET().src)} ${esc(q.p)}</p></div>`; }).join('')}</div>`
   :`<div class="note" style="border-color:var(--ok)"><b>모두 맞혔습니다</b>오답노트에서 이번에 맞힌 문제는 지웠습니다.</div>`}`;
   document.getElementById('bHome').onclick=()=>{ S.view='home'; render(); window.scrollTo(0,0); };
