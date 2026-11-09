@@ -79,6 +79,14 @@ h1,h2,h3{text-wrap:balance;margin:0}
 .linkbtn{background:none;border:0;padding:6px 2px;font-size:13px;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .keyline{margin:12px 0;padding:11px 14px;border-radius:4px;background:var(--paper);border-left:3px solid var(--omr);font-size:14.5px;line-height:1.55}
 .keyline b{margin-right:8px;color:var(--omr);font-size:13px}
+.klist{margin-top:20px;display:grid;gap:18px}
+.kgroup{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 0}
+.kgroup h3{font-size:16px;margin:12px 20px 6px;display:flex;justify-content:space-between;align-items:baseline}
+.kgroup h3 small{font-size:12.5px;color:var(--muted);font-weight:500}
+.krow{display:grid;grid-template-columns:30px 1fr;gap:10px;padding:11px 20px;border-top:1px solid var(--line);font-size:14.5px;line-height:1.55}
+.krow .no{color:var(--muted);font-size:12.5px;padding-top:2px}
+.krow b{display:block;font-size:12.5px;color:var(--omr);font-weight:700;margin-bottom:2px}
+.krow.done b{color:var(--ok)}
 .gradnote{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-radius:4px;font-size:14.5px;line-height:1.6;background:var(--surface)}
 .bank{padding:16px 24px;border-bottom:1px solid var(--line);font-size:14px;color:var(--muted);line-height:1.6}
 .bank b{color:var(--ink)}
@@ -977,7 +985,7 @@ function calc(){
     return {by, parts, total: Math.min(...parts.map(x=>x.score)), max:100, right, n:S.list.length, equal:true, dual:true}; }
   return {by, total: equal ? Math.round(right/S.list.length*100) : pts, max: equal ? 100 : maxPts, right, n:S.list.length, equal};
 }
-function render(){ if(S.view==='notes') return renderNotes(); if(S.view==='home') return renderHome(); if(S.view==='quiz') return renderQuiz(); if(S.view==='result') return renderResult(); }
+function render(){ if(S.view==='keys') return renderKeys(); if(S.view==='notes') return renderNotes(); if(S.view==='home') return renderHome(); if(S.view==='quiz') return renderQuiz(); if(S.view==='result') return renderResult(); }
 
 function renderHome(){
   const ex=SET();
@@ -1008,6 +1016,7 @@ function renderHome(){
     </div>
     <div class="bank">${CORE_META.note||''} 한 번에 20문항씩 풀고, 틀린 개념은 다음 세트에 먼저 나옵니다. 두 번 연속 맞히면 졸업하고, 다시 나올 때는 같은 개념을 다른 방향으로 묻습니다. 실전 모의고사에서 틀린 핵심 개념은 다시 반복 목록으로 돌아옵니다.</div>
     <div class="sheet-foot">
+      <button class="btn ghost" id="bKeys">핵심 ${cl.length}줄 한눈에 보기</button>
       <button class="btn" id="bCore">${cDone===cl.length?'졸업 개념 복습하기':(cStarted?'이어서 풀기':'핵심 반복 시작')}</button>
       ${cStarted?`<button class="linkbtn" id="bCoreReset">${S.resetArm?'한 번 더 누르면 진행이 초기화됩니다':'진행 초기화'}</button>`:''}
     </div>
@@ -1049,6 +1058,7 @@ function renderHome(){
   `}`;
   app.querySelectorAll('[data-exam]').forEach(b=>b.onclick=()=>{ S.exam=b.dataset.exam; renderHome(); });
   const bp=document.getElementById('bPractice'); if(bp) bp.onclick=()=>start('practice');
+  const bk=document.getElementById('bKeys'); if(bk) bk.onclick=()=>{ S.view='keys'; render(); window.scrollTo(0,0); };
   const bc=document.getElementById('bCore'); if(bc) bc.onclick=()=>{ S.resetArm=false; start('core'); };
   const br=document.getElementById('bCoreReset'); if(br) br.onclick=()=>{ if(!S.resetArm){ S.resetArm=true; render(); return; } const pr=store.get(coreKey,{}); coreList().forEach(c=>delete pr[c.k]); store.set(coreKey,pr); S.resetArm=false; render(); };
   app.querySelectorAll('[data-lv]').forEach(b=>b.onclick=()=>{ S.level=b.dataset.lv; try{ localStorage.setItem('omr.level',S.level); }catch(e){} render(); });
@@ -1103,6 +1113,18 @@ function renderQuiz(){
   const cc=document.getElementById('bCancel'); if(cc) cc.onclick=()=>{ S.confirm=false; render(); };
 }
 
+function renderKeys(){
+  const prog=store.get(coreKey,{}), cl=coreList(); let no=0;
+  app.innerHTML = `
+  <div class="topbar"><button class="x" id="bBack">← 돌아가기</button><span class="pos">핵심 한 줄 모아보기</span><span></span></div>
+  <header class="brand" style="margin-top:8px"><h1 style="font-size:26px">시험 전 마지막 점검</h1><div class="ed">${SET().name} · 단골 개념 ${cl.length}개</div></header>
+  <p class="muted" style="font-size:14px;margin:10px 2px 0;line-height:1.6">2026년 8~10월 실전 문제와 김토리쌤 2026 자료에 반복해 나온 개념입니다. 초록색은 핵심 반복에서 졸업한 개념, 빨간색은 아직 남은 개념입니다.</p>
+  <div class="klist">${coreSecs().map(sc=>{ const xs=cl.filter(c=>c.s===sc); return `<section class="kgroup"><h3>${SEC[sc].name}<small>${xs.filter(c=>(prog[c.k]||{}).s>=2).length} / ${xs.length} 졸업</small></h3>${xs.map(c=>{ no++; const d=(prog[c.k]||{}).s>=2; return `<div class="krow ${d?'done':''}"><span class="no tnum">${no}</span><div><b>${esc(c.c)}</b>${esc(c.key)}</div></div>`; }).join('')}</section>`; }).join('')}</div>
+  <div class="sheet-foot" style="padding:20px 0 0"><button class="btn" id="bGo">핵심 반복 풀기</button><button class="btn ghost" id="bBack2">처음으로</button></div>`;
+  const back=()=>{ S.view='home'; render(); window.scrollTo(0,0); };
+  document.getElementById('bBack').onclick=back; document.getElementById('bBack2').onclick=back;
+  document.getElementById('bGo').onclick=()=>start('core');
+}
 function renderCoreResult(){
   const n=S.list.length, right=S.list.filter((q,k)=>S.ans[k]===q.a).length, prog=store.get(coreKey,{}), list=coreList();
   const done=list.filter(c=>(prog[c.k]||{}).s>=2).length;
