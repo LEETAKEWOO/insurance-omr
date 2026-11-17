@@ -582,7 +582,7 @@ const SETS = {
   life:{ name:'생명보험', ready:true, qs:QS_LIFE, time:50, scoring:'points', round:'2026 교재 기준 제1회',
     src:'생명보험협회 교재(2026)', srcName:'생명보험협회 「생명보험이란 무엇인가」(2026)',
     spec:[['공통1 보험이론 및 윤리','10문항 · 문항당 3점'],['공통2 보험법규','10문항 · 문항당 3점'],['생명보험','10문항 · 문항당 4점']],
-    stamp:'30문항<br>50분', foot:'연습 모드는 고르는 즉시 해설이 나오고, 실전 모드는 50분 안에 끝까지 푼 뒤 채점합니다. 100점 만점에 60점 이상이면 합격입니다.',
+    stamp:'30문항<br>50분', foot:'연습 모드는 고르는 즉시 해설이 나오고, 실전 모드는 50분 안에 끝까지 푼 뒤 채점합니다. 100점 만점에 60점 이상이면 합격입니다. 생명보험 시험은 3지선다와 4지선다가 섞여 나온다는 응시 후기와 절세나라(네오 모의) 문제은행 구성(약 절반이 3지선다)에 맞춰, 문제의 약 절반은 보기 3개로 냅니다.',
     links:[['시험 개요 보기','https://exam.insure.or.kr/lp/schd/overview'],['공식 교재 PDF','https://exam.insure.or.kr/upload/upfile/common/recent/varisu_lp_recent.pdf']] },
   third:{ name:'제3보험', ready:true, time:null, scoring:'equal',
     src:'손해보험협회 연수교재(2026)', srcName:'손해보험협회 「2026 손해보험 연수교재」(2026년 8월 시험부터 적용, 실손은 5세대 기준)',
@@ -911,10 +911,17 @@ function toCombo(base){
   const why = stems.map((i,k)=>CB_L[k]+(truth(i)?'(옳음)':'(틀림)')).join(' · ');
   return { q: subj + qtail + '\n\n' + lines.join('\n'), o, a, e: why + '\n' + base.e, combo:true };
 }
+const THREE_RATE = { life:0.5 };
 function instantiate(base){
   if(comboOK(base) && Math.random()<(COMBO_RATE[S.exam]||0)){ const c=toCombo(base); if(c.a>=0) return { id:base.id, s:base.s, gen:false, q:c.q, o:c.o, a:c.a, e:c.e, p:base.p, src:base.src, combo:true }; }
   const q = base.gen ? base.gen() : base;
-  const perm = base.fixed ? [0,1,2,3] : shuffle([0,1,2,3]);
+  let perm = base.fixed ? [0,1,2,3] : shuffle([0,1,2,3]);
+  /* 생명보험 시험은 3지선다·4지선다가 섞여 나옴(절세나라 네오 모의 2,288문항 중 약 50%가 3지선다) → 오답 보기 하나를 빼서 3지선다로 */
+  if(!base.gen && !base.fixed && Math.random()<(THREE_RATE[S.exam]||0)){
+    const wrong=perm.filter(i=>i!==q.a), quiet=wrong.filter(i=>!(q.e||'').includes(String(q.o[i]).slice(0,10)));
+    const drop=(quiet.length?quiet:wrong)[Math.floor(Math.random()*(quiet.length?quiet.length:wrong.length))];
+    perm=perm.filter(i=>i!==drop);
+  }
   return { id:base.id, s:base.s, gen:!!base.gen, q:q.q, o:perm.map(i=>q.o[i]), a:perm.indexOf(q.a), e:q.e, p:q.p, src:q.src||base.src };
 }
 /* 같은 개념 묶음: 원본·변형·숫자 랜덤 문제가 한 시험지에 같이 나오지 않게 */
