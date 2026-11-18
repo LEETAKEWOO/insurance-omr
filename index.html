@@ -1039,7 +1039,8 @@ function buildSet(){
   return out;
 }
 function start(mode, onlyWrong){
-  if(onlyWrong){ const ids=store.get(wKey(),[]).filter(byId); if(!ids.length) return; S.list=shuffle(ids).map(id=>instantiate(byId(id))); }
+  /* onlyWrong: true = 오답 노트 전체, 배열 = 방금 시험에서 틀린 문제만(결과 화면의 '틀린 N문항 다시 풀기') */
+  if(onlyWrong){ const ids=[...new Set(Array.isArray(onlyWrong)?onlyWrong:store.get(wKey(),[]))].filter(byId); if(!ids.length) return; S.list=shuffle(ids).map(id=>instantiate(byId(id))); }
   else S.list = mode==='core' ? buildCore() : buildSet();
   S.grad=0; S.retry=!!onlyWrong; S.mode=mode; S.idx=0; S.ans={}; S.locked={}; S.confirm=false; S.view='quiz';
   clearInterval(S.timerId);
@@ -1287,7 +1288,7 @@ function renderResult(){
   :`<div class="note" style="border-color:var(--ok)"><b>모두 맞혔습니다</b>오답노트에서 이번에 맞힌 문제는 지웠습니다.</div>`}`;
   document.getElementById('bHome').onclick=()=>{ S.view='home'; render(); window.scrollTo(0,0); };
   document.getElementById('bAgain').onclick=()=>start(S.mode);
-  const rt=document.getElementById('bRetry'); if(rt) rt.onclick=()=>{ const ids=wrongs.map(([q])=>q.id); store.set(wKey(),[...new Set([...store.get(wKey(),[]),...ids])]); start('practice',true); };
+  const rt=document.getElementById('bRetry'); if(rt) rt.onclick=()=>{ const ids=[...new Set(wrongs.map(([q])=>q.id))]; store.set(wKey(),[...new Set([...store.get(wKey(),[]),...ids])]); start('practice',ids); };
 }
 render();
 
